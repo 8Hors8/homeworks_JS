@@ -7,18 +7,46 @@ document.addEventListener("DOMContentLoaded", () => {
 
   links.forEach((link) => {
     link.addEventListener("click", (event) => {
-      event.preventDefault();     
+      event.preventDefault();
 
       tooltip.textContent = event.target.getAttribute("title");
-      tooltip.style.left = event.clientX  + 10 + "px";
-      tooltip.style.top = event.clientY  + 10 + "px";
-      tooltip.classList.add("tooltip_active");      
+      const position = event.target.getAttribute("data-position") || "top";
+      const rect = event.target.getBoundingClientRect();      
+
+      let left, top;
+
+      switch (position) {
+        case "top":
+          top = rect.top - 30;
+          left = rect.left;
+          break;
+        case "bottom":
+          left = rect.left;
+          top = rect.top + 30;
+          break;
+        case "left":
+          left = rect.left - 180;
+          top = rect.top;
+          break;
+        case "right":
+          left = rect.right + 10;
+          top = rect.top;
+          break;
+        default:
+          left = rect.left + rect.width / 2 - tooltip.offsetWidth / 2;
+          top = rect.top - tooltip.offsetHeight - 5;
+      }      
+
+      tooltip.style.top = `${top}px`;
+      tooltip.style.left = `${left}px`;
+
+      tooltip.classList.add("tooltip_active");
 
       const handleMouseUp = () => {
         tooltip.classList.remove("tooltip_active");
         document.removeEventListener("mouseup", handleMouseUp);
       };
-      document.addEventListener("mouseup", handleMouseUp);      
+      document.addEventListener("mouseup", handleMouseUp);
     });
   });
 });
