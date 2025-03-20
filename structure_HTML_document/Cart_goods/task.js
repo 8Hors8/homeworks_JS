@@ -3,12 +3,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const cart = document.querySelector(".cart");
     const cartProducts = document.querySelector(".cart__products");
   
-    // Функция обновления видимости корзины
+    
     function updateCartVisibility() {
       cart.style.display = cartProducts.children.length > 0 ? "block" : "none";
     }
   
-    // Функция сохранения корзины в localStorage
+    
     function saveCartToStorage() {
       const cartItems = [...cartProducts.children].map((cartProduct) => ({
         id: cartProduct.dataset.id,
@@ -18,14 +18,14 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.setItem("cart", JSON.stringify(cartItems));
     }
   
-    // Функция загрузки корзины из localStorage
+    
     function loadCartFromStorage() {
       const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
       cartItems.forEach(({ id, quantity, img }) => addToCart(id, quantity, img));
       updateCartVisibility();
     }
   
-    // Функция добавления товара в корзину
+    
     function addToCart(id, quantity, imgSrc) {
       let cartProduct = cartProducts.querySelector(`.cart__product[data-id="${id}"]`);
   
@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
       saveCartToStorage();
     }
   
-    // Обработчик кликов по товарам
+    
     products.addEventListener("click", (event) => {
       if (event.target.classList.contains("product__quantity-control_dec")) {
         const quantityValue = event.target.closest(".product__quantity-controls").querySelector(".product__quantity-value");
@@ -85,14 +85,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const quantity = parseInt(product.querySelector(".product__quantity-value").textContent);
         const imgSrc = product.querySelector(".product__image").src;
   
-        // Анимация перемещения в корзину
+        
         animateProductToCart(product, () => {
           addToCart(productId, quantity, imgSrc);
         });
       }
     });
   
-    // Функция анимации товара в корзину
+    
     function animateProductToCart(product, callback) {
       const img = product.querySelector(".product__image");
       const cartRect = cartProducts.getBoundingClientRect();
@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
       setTimeout(() => {
         imgClone.style.left = `${cartRect.left}px`;
         imgClone.style.top = `${cartRect.top}px`;
-        imgClone.style.width = "50px";
+        imgClone.style.width = "900px";
         imgClone.style.height = "50px";
         imgClone.style.opacity = "0.5";
       }, 50);
